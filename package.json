@@ -1,0 +1,32 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "gatsby build",
+    "develop": "gatsby develop",
+    "lint:es": "eslint --ignore-path .gitignore \"**/*.{js,jsx}\"",
+    "lint:style": "stylelint \"src/**/*.scss\"",
+    "lint": "yarn lint:es && yarn lint:style",
+    "format": "prettier-eslint --write \"**/*.{js,jsx,json,css,scss,md}\""
+  },
+  "dependencies": {
+    "gatsby": "next",
+    "gatsby-plugin-react-helmet": "next",
+    "gatsby-plugin-manifest": "next",
+    "gatsby-plugin-offline": "next",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "react-helmet": "^5.2.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.16.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.6.1",
+    "prettier-eslint-cli": "^4.7.0",
+    "stylelint": "^9.2.0",
+    "stylelint-config-idiomatic-order": "^5.0.0",
+    "stylelint-config-recommended-scss": "^3.0.0",
+    "stylelint-scss": "^3.0.0"
+  }
+}
