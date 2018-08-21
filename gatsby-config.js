@@ -1,6 +1,11 @@
 module.exports = {
   siteMetadata: {
-    title: 'Gatsby Strict Starter',
+    title: 'Jean Bomberman',
   },
-  plugins: ['gatsby-plugin-react-helmet'],
+  plugins: [
+    'gatsby-plugin-react-helmet',
+    {
+      resolve: `gatsby-plugin-styled-components`
+    }
+  ],
 };
