@@ -2,7 +2,8 @@ import React from 'react'
 import { Link } from 'gatsby'
 import styled from 'styled-components'
 
-import theme from './theme'
+import theme from '../theme'
+import jambonBeurre from '../../images/jambon-beurre.png'
 
 const StrippedHeader = styled.div`
   background: linear-gradient(
@@ -34,22 +35,38 @@ const NoMarginH1 = styled.h1`
     margin: 0
 `
 
+const ImageContainer = styled.div`
+    text-align: center;
+`
+
+const Image = styled.img`
+    width: 20%;
+    max-width: 200px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+`
+
 const Header = ({ siteTitle }) => (
-  <StrippedHeader>
-    <StrippedMatchTextContainer>
-      <NoMarginH1>
-        <Link
-          to="/"
-          style={{
-            color: 'transparent',
-            textDecoration: 'none',
-          }}
-        >
-          {siteTitle}
-        </Link>
-      </NoMarginH1>
-    </StrippedMatchTextContainer>
-  </StrippedHeader>
+  <React.Fragment>
+    <StrippedHeader>
+      <StrippedMatchTextContainer>
+        <NoMarginH1>
+          <Link
+            to="/"
+            style={{
+              color: 'transparent',
+              textDecoration: 'none',
+            }}
+          >
+            {siteTitle}
+          </Link>
+        </NoMarginH1>
+      </StrippedMatchTextContainer>
+    </StrippedHeader>
+    <ImageContainer>
+      <Image src={jambonBeurre} />
+    </ImageContainer>
+  </React.Fragment>
 )
 
 export default Header
