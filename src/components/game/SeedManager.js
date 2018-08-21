@@ -7,8 +7,26 @@ import Button from '../shared/Button'
 
 const SeedManagerContainer = styled.div`
   margin-bottom: 20px;
-  padding: 0 20;
-  backgroundColor: theme.primary.lighter
+  padding: 20px;
+  background-color: ${theme.primary.lighter}
+`
+
+const TextInputContainer = styled.div`
+  display: inline-block;
+  width: 100%;
+  max-width: 180px;
+  vertical-align: top;
+`
+
+const ButtonContainer = styled.div`
+  display: inline-block;
+  margin: 0 8px;
+  vertical-align: top;
+`
+
+const ButtonGroupContainer = styled.div`
+  display: inline-block;
+  vertical-align: top;
 `
 
 export default class SeedManager extends React.Component {
@@ -51,13 +69,21 @@ export default class SeedManager extends React.Component {
   render () {
     return (
       <SeedManagerContainer>
-        <TextInput name='seed' value={this.state.seed === undefined ? this.props.seed : this.state.seed} onChange={this.handleSeedChange} label='Integer number seed' />
-        <Button primary onClick={this.updateSeed}>
-          Set seed
-        </Button>
-        <Button primary onClick={this.randomizeSeed}>
-          New seed
-        </Button>
+        <TextInputContainer>
+          <TextInput name='seed' value={this.state.seed === undefined ? this.props.seed : this.state.seed} onChange={this.handleSeedChange} label='Integer number seed' />
+        </TextInputContainer>
+        <ButtonGroupContainer>
+          <ButtonContainer>
+            <Button primary onClick={this.updateSeed}>
+              Set seed
+            </Button>
+          </ButtonContainer>
+          <ButtonContainer>
+            <Button primary onClick={this.randomizeSeed}>
+              New seed
+            </Button>
+          </ButtonContainer>
+        </ButtonGroupContainer>
       </SeedManagerContainer>
     )
   }

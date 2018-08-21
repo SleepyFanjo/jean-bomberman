@@ -28,6 +28,10 @@ const StyledButton = styled.button`
     : 'none'
   )};
   border-radius: 15px;
+  height: 56px;
+  line-height: 56px;
+  padding: 0 8px;
+  outline: none;
 `
 
 const Button = (props) => {
