@@ -3,7 +3,9 @@ import React from 'react'
 import { GameContext } from './game-context'
 import GameManager from './GameManager'
 
+import makeCancelable from '../shared/makeCancelable'
 import { randomizerInit } from './randomizer'
+import buildMap from './map-generator'
 
 export default class GameStateManager extends React.Component {
   constructor (props) {
@@ -15,8 +17,24 @@ export default class GameStateManager extends React.Component {
       seed: seed,
       randomizer: randomizerInit(seed),
       resetSeed: this.resetSeed,
-      renewSeed: this.renewSeed
+      renewSeed: this.renewSeed,
+      map: undefined
     }
+  }
+
+  componentDidMount () {
+    this.mapPromise = makeCancelable(
+      buildMap(this.state.randomizer)
+      .then((map) => {
+        this.setState({
+          map
+        })
+      })
+    )
+  }
+
+  componentWillUnmount () {
+    this.mapPromise.cancel()
   }
 
   renewSeed = () => {
@@ -26,10 +44,21 @@ export default class GameStateManager extends React.Component {
   }
 
   resetSeed = (seed) => {
+    const randomizer = randomizerInit(seed)
     this.setState({
       seed: seed,
-      randomizer: randomizerInit(seed)
+      randomizer: randomizer,
+      map: undefined,
     })
+
+    this.mapPromise = makeCancelable(
+      buildMap(randomizer)
+      .then((map) => {
+        this.setState({
+          map
+        })
+      })
+    )
   }
 
   render () {
