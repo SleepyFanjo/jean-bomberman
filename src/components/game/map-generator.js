@@ -1,6 +1,6 @@
-import * as settings from './settings'
-import entities from '../entities'
-import { distance } from '../shared/math'
+import * as settings from '../../settings'
+import entities from '../../entities'
+import { distance } from '../../utils/math'
 
 const ENTITY_CHOICE = [
   entities.Brick,

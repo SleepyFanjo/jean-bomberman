@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'gatsby'
 import styled from 'styled-components'
 
-import theme from '../theme'
+import theme from '../../theme'
 import jambonBeurre from '../../images/jambon-beurre.png'
 
 const StrippedHeader = styled.div`

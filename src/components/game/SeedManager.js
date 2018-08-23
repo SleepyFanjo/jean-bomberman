@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import theme from '../theme'
+import theme from '../../theme'
 import TextInput from '../shared/TextInput'
 import Button from '../shared/Button'
 

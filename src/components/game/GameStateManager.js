@@ -3,8 +3,8 @@ import React from 'react'
 import { GameContext } from './game-context'
 import GameManager from './GameManager'
 
-import makeCancelable from '../shared/makeCancelable'
-import { randomizerInit } from './randomizer'
+import makeCancelable from '../../utils/makeCancelable'
+import { randomizerInit } from '../../utils/randomizer'
 import buildMap from './map-generator'
 
 export default class GameStateManager extends React.Component {
