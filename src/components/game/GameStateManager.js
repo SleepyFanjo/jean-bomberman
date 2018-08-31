@@ -5,7 +5,7 @@ import GameManager from './GameManager'
 
 import makeCancelable from '../../utils/makeCancelable'
 import { randomizerInit } from '../../utils/randomizer'
-import buildMap from './map-generator'
+import buildMap from '../map/map-generator'
 
 export default class GameStateManager extends React.Component {
   constructor (props) {
