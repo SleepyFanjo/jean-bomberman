@@ -220,6 +220,7 @@ export default class GameLoader extends React.Component {
         this.setState({
           animation: HIDE
         })
+        this.props.onAnimationEnd()
       }, 800)
     }
   }

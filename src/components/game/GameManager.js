@@ -10,7 +10,8 @@ export default class GameManager extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      open: true
+      open: true,
+      animationEnd: false
     }
 
     window.setTimeout(() => {
@@ -19,6 +20,13 @@ export default class GameManager extends React.Component {
       })
     }, 1000)
   }
+
+  handleAnimationEnd = () => {
+    this.setState({
+      animationEnd: true
+    })
+  }
+
   render () {
     return (
       <GameContext.Consumer>
@@ -26,12 +34,12 @@ export default class GameManager extends React.Component {
           game => (
             <React.Fragment>
               <SeedManager {...game}  />
-              <GameLoader open={!game.map} />
+              <GameLoader open={!game.map} onAnimationEnd={this.handleAnimationEnd} />
               {
-                game.map
+                game.map && this.state.animationEnd
                 ? <WindowSize>
                   {
-                    ({width, height}) => <MapDisplay map={game.map} width={width} height={height} />
+                    ({width, height}) => <MapDisplay gameMap={game.map} width={width} height={height} />
                   }
                 </WindowSize>
                 : null

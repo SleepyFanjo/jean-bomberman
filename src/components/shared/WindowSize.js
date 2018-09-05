@@ -8,7 +8,7 @@ export default class WindowSize extends React.Component {
     super(props)
 
     this.state = {
-      width: window.innerWidth,
+      width: document.body.clientWidth,
       height: window.innerHeight
     }
 
@@ -25,7 +25,7 @@ export default class WindowSize extends React.Component {
 
   resize = () => {
     this.setState({
-      width: window.innerWidth,
+      width: document.body.clientWidth,
       height: window.innerHeight
     })
   }
