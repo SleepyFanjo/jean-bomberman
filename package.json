@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "babel-plugin-styled-components": "^1.5.1",
+    "debounce": "^1.2.0",
     "gatsby": "next",
     "gatsby-plugin-manifest": "next",
     "gatsby-plugin-offline": "next",

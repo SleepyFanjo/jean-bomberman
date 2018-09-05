@@ -2,7 +2,6 @@ import React from 'react'
 import styled, { keyframes } from 'styled-components'
 import theme from '../../theme'
 
-const IN = 'in'
 const WAITING = 'waiting'
 const OUT = 'out'
 const HIDE = 'hide'
@@ -207,14 +206,8 @@ export default class GameLoader extends React.Component {
     super(props)
 
     this.state = {
-      animation: IN
+      animation: WAITING
     }
-
-    window.setTimeout(() => {
-      this.setState({
-        animation: WAITING
-      })
-    }, 400)
   }
 
   componentDidUpdate (prevProps, prevState) {

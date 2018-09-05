@@ -2,7 +2,9 @@ import React from 'react'
 import { GameContext } from './game-context'
 
 import SeedManager from './SeedManager'
+import MapDisplay from '../map/MapDisplay'
 import GameLoader from '../shared/GameLoader'
+import WindowSize from '../shared/WindowSize'
 
 export default class GameManager extends React.Component {
   constructor (props) {
@@ -15,7 +17,7 @@ export default class GameManager extends React.Component {
       this.setState({
         open: false
       })
-    }, 10000)
+    }, 1000)
   }
   render () {
     return (
@@ -24,10 +26,14 @@ export default class GameManager extends React.Component {
           game => (
             <React.Fragment>
               <SeedManager {...game}  />
-              <GameLoader open={this.state.open} />
+              <GameLoader open={!game.map} />
               {
                 game.map
-                ? <div>map loaded</div>
+                ? <WindowSize>
+                  {
+                    ({width, height}) => <MapDisplay map={game.map} width={width} height={height} />
+                  }
+                </WindowSize>
                 : null
               }
             </React.Fragment>
