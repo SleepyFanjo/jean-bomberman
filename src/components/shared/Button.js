@@ -27,11 +27,15 @@ const StyledButton = styled.button`
     ? '2px solid ' + getColorFromProps(props)
     : 'none'
   )};
-  border-radius: 15px;
+  border-radius: 5px;
   height: 56px;
   line-height: 56px;
   padding: 0 8px;
   outline: none;
+  text-transform: uppercase;
+  &:hover {
+    cursor: pointer;
+  }
 `
 
 const Button = (props) => {
