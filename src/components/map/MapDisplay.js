@@ -31,11 +31,11 @@ const Line = styled.div`
   height: ${props => props.height}px;
 `
 
-const Tile = styled.div`
+const TileGroup = styled.div`
   height: ${props => props.size}px;
   width: ${props => props.size}px;
-  border: 1px solid black;
   display: inline-block;
+  position: relative;
 `
 
 export default class MapDisplay extends React.Component {
@@ -65,15 +65,28 @@ export default class MapDisplay extends React.Component {
       <MapWrapper width={width} height={height}>
         <MapContainer width={mapWidth} height={mapHeight}>
           {
-            gameMap.map((line, y) => (
-              <Line height={tileSize} key={y}>
+            gameMap.map((line, y) => {
+              return (
+                <Line height={tileSize} key={y}>
                 {
-                  line.map((tile, x) => (
-                    <Tile size={tileSize} key={x} />
-                  ))
+                  line.map((tileGroup, x) => {
+                    return (
+                      <TileGroup size={tileSize} key={x}>
+                        {
+                          tileGroup.map((entity, index) => {
+                            const Tile = entity.tile
+                            return (
+                              <Tile key={index} index={index} />
+                            )
+                          })
+                        }
+                      </TileGroup>
+                    )
+                  })
                 }
-              </Line>
-            ))
+                </Line>
+              )
+            })
           }
         </MapContainer>
       </MapWrapper>

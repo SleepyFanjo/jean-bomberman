@@ -16,11 +16,11 @@ export default class WindowSize extends React.Component {
   }
 
   componentDidMount () {
-    this.listener = window.addEventListener("resize", this.resize)
+    window.addEventListener("resize", this.resize)
   }
 
   componentWillUnmount () {
-    window.removeEventListener(this.listener)
+    window.removeEventListener("resize", this.resize)
   }
 
   resize = () => {

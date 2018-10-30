@@ -10,7 +10,7 @@ const ENTITY_CHOICE = [
   entities.Brick,
   entities.Brick,
   entities.Brick,
-  entities.Air,
+  entities.Brick,
   entities.Air,
   entities.Air
 ]
