@@ -1,6 +1,7 @@
 import * as settings from '../../settings'
 import entities from '../../entities'
 import { distance } from '../../utils/math'
+import ws from '../../utils/websocket'
 
 const ENTITY_CHOICE = [
   entities.Brick,
@@ -34,6 +35,7 @@ const chooseARandomBlock = (randomizer, choices) => choices[Math.floor(randomize
 
 // return a new map base on randomizer parameter
 const buildMap = (randomizer) => {
+  ws.sendRawData('Vive les websockets!')
   return Promise.resolve()
   .then(() => {
     const emptyMap = Array.apply(null, Array(settings.MAP_HEIGHT))

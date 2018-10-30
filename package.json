@@ -3,6 +3,7 @@
   "scripts": {
     "build": "gatsby build",
     "develop": "gatsby develop",
+    "run-server": "node server/websocket-endpoint.js",
     "lint:es": "eslint --ignore-path .gitignore \"**/*.{js,jsx}\"",
     "lint:style": "stylelint \"src/**/*.scss\"",
     "lint": "yarn lint:es && yarn lint:style",
@@ -19,7 +20,8 @@
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-helmet": "^5.2.0",
-    "styled-components": "^3.4.2"
+    "styled-components": "^3.4.2",
+    "websocket": "^1.0.28"
   },
   "devDependencies": {
     "eslint": "^4.16.0",
