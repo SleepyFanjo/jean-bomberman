@@ -1,11 +1,9 @@
-import tiles from '../components/map/tiles'
-
 class Entity {
   constructor () {
     this.block = null
     this.destructible = null
     this.zIndex = 0
-    this.tile = tiles.BaseTile
+    this.type = AIR_TYPE
   }
 }
 
@@ -14,7 +12,7 @@ class Air extends Entity {
     super()
     this.block = false
     this.destructible = false
-    this.tile = tiles.AirTile
+    this.type = AIR_TYPE
   }
 }
 
@@ -23,7 +21,7 @@ class Block extends Entity {
     super()
     this.block = true
     this.destructible = false
-    this.tile = tiles.BlockTile
+    this.type = BLOCK_TYPE
   }
 }
 
@@ -31,8 +29,8 @@ class Brick extends Entity {
   constructor () {
     super()
     this.block = true
-    this.destructible = Air
-    this.tile = tiles.BrickTile
+    this.destructible = true
+    this.type = BRICK_TYPE
   }
 }
 
@@ -40,11 +38,21 @@ class Player extends Entity {
   constructor () {
     super()
     this.block = false
-    this.destructible = Air
+    this.destructible = true
     this.zIndex = 10
   }
 }
 
-export default {
-  Entity, Air, Block, Brick, Player
+const AIR_TYPE = 'Air'
+const BRICK_TYPE = 'Brick'
+const BLOCK_TYPE = 'Block'
+
+const types = {
+  AIR_TYPE,
+  BRICK_TYPE,
+  BLOCK_TYPE
+}
+
+module.exports = {
+  Entity, Air, Block, Brick, Player, types
 }

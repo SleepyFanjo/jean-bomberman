@@ -1,7 +1,7 @@
-import * as settings from '../../settings'
-import entities from '../../entities'
-import { distance } from '../../utils/math'
-import ws from '../../utils/websocket'
+const settings = require('../src/settings')
+const entities = require('../src/entities')
+const { distance } = require('../src/utils/math')
+const { randomizerInit } = require('./randomizer')
 
 const ENTITY_CHOICE = [
   entities.Brick,
@@ -33,9 +33,9 @@ const determinedBlockRules = [
 
 const chooseARandomBlock = (randomizer, choices) => choices[Math.floor(randomizer() * choices.length)]
 
-// return a new map base on randomizer parameter
-const buildMap = (randomizer) => {
-  ws.sendRawData('Vive les websockets!')
+// return a new map base on seed parameter
+const buildMap = (seed) => {
+  const randomizer = randomizerInit(seed)
   return Promise.resolve()
   .then(() => {
     const emptyMap = Array.apply(null, Array(settings.MAP_HEIGHT))
@@ -53,4 +53,23 @@ const buildMap = (randomizer) => {
   })
 }
 
-export default buildMap
+const serializeMap = (map) => {
+  return map.map((row, y) => {
+    return row.map((cell) => {
+      return cell.map((entity) => {
+        return {
+          type: entity.type
+        }
+      })
+    })
+  })
+}
+
+const buildSerializedMap = (seed) => {
+  return buildMap(seed)
+  .then((map) => {
+    return serializeMap(map)
+  })
+}
+
+module.exports = buildSerializedMap

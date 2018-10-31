@@ -3,19 +3,15 @@ import React from 'react'
 import { GameContext } from './game-context'
 import GameManager from './GameManager'
 
-import makeCancelable from '../../utils/makeCancelable'
-import { randomizerInit } from '../../utils/randomizer'
-import buildMap from '../map/map-generator'
+import ws from '../../utils/websocket'
+import * as actions from '../../../action-constants'
 
 export default class GameStateManager extends React.Component {
   constructor (props) {
     super(props)
 
-    const seed = Math.floor(Math.random() * 1000000) + 1
-
     this.state = {
-      seed: seed,
-      randomizer: randomizerInit(seed),
+      seed: null,
       resetSeed: this.resetSeed,
       renewSeed: this.renewSeed,
       map: undefined
@@ -23,42 +19,49 @@ export default class GameStateManager extends React.Component {
   }
 
   componentDidMount () {
-    this.mapPromise = makeCancelable(
-      buildMap(this.state.randomizer)
-      .then((map) => {
-        this.setState({
-          map
-        })
-      })
-    )
+    ws.client.onmessage = function(e) {
+      if (typeof e.data === 'string') {
+        const action = JSON.parse(e.data)
+
+        this.handleAction(action)
+      }
+    }.bind(this)
+
+    ws.createRoom()
   }
 
-  componentWillUnmount () {
-    this.mapPromise.cancel()
+  handleAction = (action) => {
+    switch (action.type) {
+      case actions.DATA_MAP:
+        this.handleMapReceived(action)
+        break
+      case actions.DATA_ROOM_ID:
+        this.handleSeedReceived(action)
+        break
+      default:
+        break
+    }
+  }
+
+  handleMapReceived = (action) => {
+    console.log(action)
+    this.setState({
+      map: action.map
+    })
+  }
+
+  handleSeedReceived = (action) => {
+    this.setState({
+      seed: action.seed
+    })
   }
 
   renewSeed = () => {
-    const seed = Math.floor(Math.random() * 1000000) + 1
-
-    this.resetSeed(seed)
+    ws.createRoom()
   }
 
   resetSeed = (seed) => {
-    const randomizer = randomizerInit(seed)
-    this.setState({
-      seed: seed,
-      randomizer: randomizer,
-      map: undefined,
-    })
-
-    this.mapPromise = makeCancelable(
-      buildMap(randomizer)
-      .then((map) => {
-        this.setState({
-          map
-        })
-      })
-    )
+    ws.joinRoom(seed)
   }
 
   render () {

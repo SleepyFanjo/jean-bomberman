@@ -1,2 +1,7 @@
-export const MAP_WIDTH = 21
-export const MAP_HEIGHT = 11
+const MAP_WIDTH = 21
+const MAP_HEIGHT = 11
+
+module.exports = {
+  MAP_WIDTH,
+  MAP_HEIGHT
+}

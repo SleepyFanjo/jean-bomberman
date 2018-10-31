@@ -2,6 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 
 import * as settings from '../../settings'
+import tiles from './tiles'
+import { types } from '../../entities'
 
 /*
  * Here we make map responsive using js and computing the size on window resize event (debounced)
@@ -56,6 +58,19 @@ export default class MapDisplay extends React.Component {
     return {mapWidth, mapHeight}
   }
 
+  getTile (entity) {
+    switch (entity.type) {
+      case types.AIR_TYPE:
+        return tiles.AirTile
+      case types.BRICK_TYPE:
+        return tiles.BrickTile
+      case types.BLOCK_TYPE:
+        return tiles.BlockTile
+      default:
+        return tiles.AirTile
+    }
+  }
+
   render () {
     const {width, height, gameMap} = this.props
     const { mapWidth, mapHeight } = this.getMapContainerSize(width, height)
@@ -74,7 +89,7 @@ export default class MapDisplay extends React.Component {
                       <TileGroup size={tileSize} key={x}>
                         {
                           tileGroup.map((entity, index) => {
-                            const Tile = entity.tile
+                            const Tile = this.getTile(entity)
                             return (
                               <Tile key={index} index={index} />
                             )

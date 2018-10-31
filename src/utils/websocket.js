@@ -1,4 +1,5 @@
 import { w3cwebsocket as WS } from 'websocket'
+import * as actions from '../../action-constants'
 
 const client = new WS('ws://localhost:8080/', 'echo-protocol')
 
@@ -24,25 +25,10 @@ client.onopen = function () {
       }
     })
   }
-
-  const sendNumber = () => {
-    if (client.readyState === client.OPEN) {
-      const number = Math.round(Math.random() * 0xFFFFFF)
-      client.send(number.toString())
-    }
-  }
-  sendNumber()
 }
 
 client.onclose = function() {
   console.log('echo-protocol Client Closed')
-}
-
-client.onmessage = function(e) {
-  console.log(e)
-  if (typeof e.data === 'string') {
-    console.log("Received: '" + e.data + "'")
-  }
 }
 
 const sendRawData = (data) => {
@@ -67,7 +53,23 @@ const sendRawData = (data) => {
   return Promise.reject()
 }
 
+const sendJSONData = (data) => {
+  sendRawData(JSON.stringify(data))
+}
+
+// Actions
+const joinRoom = (seed) => {
+  sendJSONData({type: actions.CLIENT_JOIN_ROOM, seed: seed})
+}
+
+const createRoom = () => {
+  sendJSONData({type: actions.CLIENT_CREATE_ROOM})
+}
+
 export default {
   client: client,
-  sendRawData
+  sendRawData,
+  sendJSONData,
+  joinRoom,
+  createRoom
 }
