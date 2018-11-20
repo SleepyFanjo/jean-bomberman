@@ -23,6 +23,7 @@ export default class GameStateManager extends React.Component {
       if (typeof e.data === 'string') {
         const action = JSON.parse(e.data)
 
+        console.log(action)
         this.handleAction(action)
       }
     }.bind(this)

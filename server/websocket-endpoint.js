@@ -1,10 +1,8 @@
 #!/usr/bin/env node
 
-const actions = require('../action-constants')
-const buildSerializedMap = require('./map-generator')
-
 const WebSocketServer = require('websocket').server
 const http = require('http')
+const roomsManager = require('./rooms-manager')
 
 let users = []
 
@@ -42,11 +40,9 @@ wsServer.on('request', function(request) {
 
   const connection = request.accept('echo-protocol', request.origin)
   users.push(connection)
-  console.log((new Date()) + ' Connection accepted.')
   connection.on('message', function(message) {
     if (message.type === 'utf8') {
 
-      console.log('Received Message: ' + message.utf8Data)
       handleMessage(JSON.parse(message.utf8Data), connection)
     }
     else if (message.type === 'binary') {
@@ -55,32 +51,11 @@ wsServer.on('request', function(request) {
   })
   connection.on('close', function(reasonCode, description) {
     users = users.filter(user => user !== connection)
+    roomsManager.leaveRoom(connection)
     console.log((new Date()) + ' Peer ' + connection.remoteAddress + ' disconnected.')
   })
 })
 
-const sendJSONMessage = (message, user) => {
-  console.log('Sending message : ', message.type)
-  user.sendUTF(JSON.stringify(message))
-}
-
-const createRoom = (user) => {
-  const seed = Math.floor(Math.random() * 1000000) + 1
-
-  sendJSONMessage({type: actions.DATA_ROOM_ID, seed: seed}, user)
-
-  buildSerializedMap(seed)
-  .then((map) => {
-    sendJSONMessage({type: actions.DATA_MAP, map: map}, user)
-  })
-}
-
 const handleMessage = (action, user) => {
-  switch (action.type) {
-    case actions.CLIENT_CREATE_ROOM:
-      createRoom(user)
-      break
-    default:
-      break
-  }
+  roomsManager.handleMessage(action, user)
 }
