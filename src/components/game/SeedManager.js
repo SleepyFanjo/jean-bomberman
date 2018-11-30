@@ -70,7 +70,7 @@ export default class SeedManager extends React.Component {
     return (
       <SeedManagerContainer>
         <TextInputContainer>
-          <TextInput name='seed' value={this.state.seed === undefined ? this.props.seed : this.state.seed} onChange={this.handleSeedChange} label='Room id' />
+          <TextInput name='seed' value={this.state.seed === undefined ? (this.props.seed || '') : this.state.seed} onChange={this.handleSeedChange} label='Room id' />
         </TextInputContainer>
         <ButtonGroupContainer>
           <ButtonContainer>

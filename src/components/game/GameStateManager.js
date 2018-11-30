@@ -12,9 +12,9 @@ export default class GameStateManager extends React.Component {
 
     this.state = {
       seed: null,
-      resetSeed: this.resetSeed,
-      renewSeed: this.renewSeed,
-      map: undefined
+      map: undefined,
+      ready: false,
+      count: 1
     }
   }
 
@@ -39,13 +39,30 @@ export default class GameStateManager extends React.Component {
       case actions.DATA_ROOM_ID:
         this.handleSeedReceived(action)
         break
+      case actions.DATA_GAME_STARTED:
+        this.handleGameStarted(action.started)
+        break
+      case actions.DATA_PLAYER_COUNT:
+        this.updatePlayerCount(action.count)
+        break
       default:
         break
     }
   }
 
+  updatePlayerCount = (count) => {
+    this.setState({
+      count: count
+    })
+  }
+
+  handleGameStarted = (started) => {
+    this.setState({
+      started: started
+    })
+  }
+
   handleMapReceived = (action) => {
-    console.log(action)
     this.setState({
       map: action.map
     })
@@ -65,9 +82,31 @@ export default class GameStateManager extends React.Component {
     ws.joinRoom(seed)
   }
 
+  setReady = () => {
+    this.setState({
+      ready: true
+    })
+  }
+
+  setNotReady = () => {
+    this.setState({
+      ready: false
+    })
+  }
+
   render () {
     return (
-      <GameContext.Provider value={this.state}>
+      <GameContext.Provider
+        value={{
+          ...this.state,
+          actions: {
+            renewSeed: this.renewSeed,
+            resetSeed: this.resetSeed,
+            setReady: this.setReady,
+            setNotReady: this.setNotReady
+          }
+        }}
+      >
         <GameManager />
       </GameContext.Provider>
     )

@@ -66,10 +66,15 @@ const createRoom = () => {
   sendJSONData({type: actions.CLIENT_CREATE_ROOM})
 }
 
+const setReady = (ready) => {
+  sendJSONData({type: actions.CLIENT_PLAYER_READY, ready: ready})
+}
+
 export default {
   client: client,
   sendRawData,
   sendJSONData,
   joinRoom,
-  createRoom
+  createRoom,
+  setReady
 }

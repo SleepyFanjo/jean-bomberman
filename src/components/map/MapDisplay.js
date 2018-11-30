@@ -5,6 +5,8 @@ import * as settings from '../../settings'
 import tiles from './tiles'
 import { types } from '../../entities'
 
+import ReadyStateHandler from './ReadyStateHandler'
+
 /*
  * Here we make map responsive using js and computing the size on window resize event (debounced)
  * instead of just using css % and viewport units
@@ -72,13 +74,18 @@ export default class MapDisplay extends React.Component {
   }
 
   render () {
-    const {width, height, gameMap} = this.props
+    const {width, height, gameMap, started} = this.props
     const { mapWidth, mapHeight } = this.getMapContainerSize(width, height)
     const tileSize = mapHeight / settings.MAP_HEIGHT
 
     return (
       <MapWrapper width={width} height={height}>
         <MapContainer width={mapWidth} height={mapHeight}>
+          {
+            !started
+            ? <ReadyStateHandler />
+            : null
+          }
           {
             gameMap.map((line, y) => {
               return (
