@@ -10,20 +10,19 @@ export default class GameManager extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      open: true,
       animationEnd: false
     }
-
-    window.setTimeout(() => {
-      this.setState({
-        open: false
-      })
-    }, 1000)
   }
 
   handleAnimationEnd = () => {
     this.setState({
       animationEnd: true
+    })
+  }
+
+  handleAnimationRestart = () => {
+    this.setState({
+      animationEnd: false
     })
   }
 
@@ -33,8 +32,8 @@ export default class GameManager extends React.Component {
         {
           game => (
             <React.Fragment>
-              <SeedManager {...game}  />
-              <GameLoader open={!game.map} onAnimationEnd={this.handleAnimationEnd} />
+              <SeedManager seed={game.seed} resetSeed={game.actions.resetSeed} renewSeed={game.actions.renewSeed}  />
+              <GameLoader open={!game.map} onAnimationEnd={this.handleAnimationEnd} onAnimationRestart={this.handleAnimationRestart} />
               {
                 game.map && this.state.animationEnd
                 ? <WindowSize>

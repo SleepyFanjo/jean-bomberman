@@ -16,6 +16,13 @@ export default class GameStateManager extends React.Component {
       ready: false,
       count: 1
     }
+
+    this.actions = {
+      renewSeed: this.renewSeed,
+      resetSeed: this.resetSeed,
+      setReady: this.setReady,
+      setNotReady: this.setNotReady
+    }
   }
 
   componentDidMount () {
@@ -23,7 +30,6 @@ export default class GameStateManager extends React.Component {
       if (typeof e.data === 'string') {
         const action = JSON.parse(e.data)
 
-        console.log(action)
         this.handleAction(action)
       }
     }.bind(this)
@@ -76,10 +82,16 @@ export default class GameStateManager extends React.Component {
 
   renewSeed = () => {
     ws.createRoom()
+    this.setState({
+      map: undefined
+    })
   }
 
   resetSeed = (seed) => {
     ws.joinRoom(seed)
+    this.setState({
+      map: undefined
+    })
   }
 
   setReady = () => {
@@ -99,12 +111,7 @@ export default class GameStateManager extends React.Component {
       <GameContext.Provider
         value={{
           ...this.state,
-          actions: {
-            renewSeed: this.renewSeed,
-            resetSeed: this.resetSeed,
-            setReady: this.setReady,
-            setNotReady: this.setNotReady
-          }
+          actions: this.actions
         }}
       >
         <GameManager />

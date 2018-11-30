@@ -29,7 +29,7 @@ const ButtonGroupContainer = styled.div`
   vertical-align: top;
 `
 
-export default class SeedManager extends React.Component {
+export default class SeedManager extends React.PureComponent {
   constructor (props) {
     super(props)
 

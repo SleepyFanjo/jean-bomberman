@@ -41,6 +41,8 @@ const createRoom = (seed, user) => {
     return
   }
 
+  leaveRoom(user)
+
   room = {
     id: seed,
     users: [initNewUser(user)],
@@ -49,7 +51,7 @@ const createRoom = (seed, user) => {
   }
 
   // Start a room clock and save a reference to it in the room to stop it when no player remains
-  room.interval = setInterval(() => roomClock(room), 1000)
+  room.interval = setInterval(() => roomClock(room), 8000)
 
   sendJSONMessage({type: actions.DATA_ROOM_ID, seed: seed}, user)
   sendJSONMessage({type: actions.DATA_GAME_STARTED, started: room.gameStarted}, user)

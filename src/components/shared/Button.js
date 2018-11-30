@@ -33,12 +33,13 @@ const StyledButton = styled.button`
   padding: 0 8px;
   outline: none;
   text-transform: uppercase;
+  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12);
   &:hover {
     cursor: pointer;
   }
 `
 
-const Button = (props) => {
+const Button = React.memo((props) => {
   return (
     <StyledButton
       {...props}
@@ -46,11 +47,10 @@ const Button = (props) => {
       {props.children}
     </StyledButton>
   )
-}
+})
 
 Button.defaultProps = {
-  variant: 'normal',
-  primary: true
+  variant: 'normal'
 }
 
 export default Button

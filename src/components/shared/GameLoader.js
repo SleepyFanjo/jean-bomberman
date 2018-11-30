@@ -210,6 +210,17 @@ export default class GameLoader extends React.Component {
     }
   }
 
+  static getDerivedStateFromProps (props, state) {
+    if (props.open === true && state.animation !== WAITING) {
+      props.onAnimationRestart()
+      return {
+        animation: WAITING
+      }
+    }
+
+    return null
+  }
+
   componentDidUpdate (prevProps, prevState) {
     if (prevProps.open === true && this.props.open === false) {
       this.setState({
