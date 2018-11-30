@@ -88,19 +88,23 @@ export default class GameStateManager extends React.Component {
   }
 
   resetSeed = (seed) => {
-    ws.joinRoom(seed)
     this.setState({
-      map: undefined
+      map: undefined,
+      seed: seed
+    }, () => {
+      ws.joinRoom(seed)
     })
   }
 
   setReady = () => {
+    ws.setReady(true)
     this.setState({
       ready: true
     })
   }
 
   setNotReady = () => {
+    ws.setReady(false)
     this.setState({
       ready: false
     })

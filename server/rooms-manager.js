@@ -72,6 +72,10 @@ const joinRoom = (seed, user) => {
 
   if (room.users.length >= 4 || everyoneReady(room.users)) {
     sendJSONMessage({type: actions.MESSAGE_ROOM_FULL}, user)
+    const room = findUserRoom(user)
+    if (room) {
+      sendJSONMessage({type: actions.DATA_ROOM_ID, seed: room.id}, user)
+    }
     return
   }
 
@@ -87,7 +91,7 @@ const joinRoom = (seed, user) => {
 }
 
 const leaveRoom = (user) => {
-  room = rooms.find(r => r.users.find(u => u.connection === user))
+  room = findUserRoom(user)
   if (room) {
     room.users = room.users.filter(u => u.connection !== user)
   }
@@ -106,6 +110,10 @@ const setPlayerReady = (ready, user, room) => {
 
 const everyoneReady = (users) => {
   return !users.some((user) => !user.ready)
+}
+
+const findUserRoom = (connection) => {
+  return rooms.find(r => r.users.find(u => u.connection === connection))
 }
 
 // Action handler to update rooms when a user sends a message
