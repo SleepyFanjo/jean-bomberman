@@ -42,6 +42,7 @@ class Player extends Entity {
     this.destructible = true
     this.zIndex = 10
     this.type = PLAYER_TYPE
+    this.orientation = DOWN
   }
 }
 
@@ -50,6 +51,11 @@ const BRICK_TYPE = 'Brick'
 const BLOCK_TYPE = 'Block'
 const PLAYER_TYPE = 'Player'
 
+const UP = 'UP'
+const LEFT = 'LEFT'
+const DOWN = 'DOWN'
+const RIGHT = 'RIGHT'
+
 const types = {
   AIR_TYPE,
   BRICK_TYPE,
@@ -57,6 +63,13 @@ const types = {
   PLAYER_TYPE
 }
 
+const orientations = {
+  UP,
+  LEFT,
+  DOWN,
+  RIGHT
+}
+
 module.exports = {
-  Entity, Air, Block, Brick, Player, types
+  Entity, Air, Block, Brick, Player, types, orientations
 }

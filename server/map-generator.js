@@ -59,7 +59,8 @@ const serializeMap = (map) => {
       return cell.map((entity) => {
         return {
           type: entity.type,
-          id: entity.id
+          id: entity.id,
+          orientation: entity.orientation
         }
       })
     })

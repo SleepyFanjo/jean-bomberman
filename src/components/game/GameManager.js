@@ -38,7 +38,7 @@ export default class GameManager extends React.Component {
                 game.map && this.state.animationEnd
                 ? <WindowSize>
                   {
-                    ({width, height}) => <MapDisplay started={game.started} gameMap={game.map} width={width} height={height} />
+                    ({width, height}) => <MapDisplay playerId={game.playerId} started={game.started} gameMap={game.map} width={width} height={height} />
                   }
                 </WindowSize>
                 : null

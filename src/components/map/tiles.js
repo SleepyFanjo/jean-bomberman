@@ -1,4 +1,9 @@
 import styled from 'styled-components'
+import React from 'react'
+
+import theme from '../../theme'
+import { orientations } from '../../entities'
+import playerSprite from '../../images/player-sprite.png'
 
 const BaseTile = styled.div`
   position: absolute;
@@ -6,7 +11,7 @@ const BaseTile = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-  zIndex: ${props => props.index};
+  z-index: ${props => props.index};
 `
 
 const AirTile = styled(BaseTile)`
@@ -30,6 +35,22 @@ const BrickTile = styled(BaseTile)`
   box-shadow: inset -1px -1px 5px #6b3400;
 `
 
+const PlayerSprite = styled.div`
+  height: 10px;
+  width: 10px;
+  background-color: ${props => props.isMe ? theme.primaryColor : '#fff'}
+`
+
+const PlayerTile = (player, playerId) => {
+  return (props) => {
+    return (
+      <BaseTile index={props.index}>
+        <PlayerSprite isMe={player.id === playerId} orientation={player.orientation} />
+      </BaseTile>
+    )
+  }
+}
+
 export default {
-  BaseTile, AirTile, BlockTile, BrickTile
+  BaseTile, AirTile, BlockTile, BrickTile, PlayerTile
 }

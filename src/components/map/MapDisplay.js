@@ -60,7 +60,7 @@ export default class MapDisplay extends React.Component {
     return {mapWidth, mapHeight}
   }
 
-  getTile (entity) {
+  getTile (entity, playerId) {
     switch (entity.type) {
       case types.AIR_TYPE:
         return tiles.AirTile
@@ -68,13 +68,15 @@ export default class MapDisplay extends React.Component {
         return tiles.BrickTile
       case types.BLOCK_TYPE:
         return tiles.BlockTile
+      case types.PLAYER_TYPE:
+        return tiles.PlayerTile(entity, playerId)
       default:
         return tiles.AirTile
     }
   }
 
   render () {
-    const {width, height, gameMap, started} = this.props
+    const {width, height, gameMap, started, playerId} = this.props
     const { mapWidth, mapHeight } = this.getMapContainerSize(width, height)
     const tileSize = mapHeight / settings.MAP_HEIGHT
 
@@ -96,9 +98,9 @@ export default class MapDisplay extends React.Component {
                       <TileGroup size={tileSize} key={x}>
                         {
                           tileGroup.map((entity, index) => {
-                            const Tile = this.getTile(entity)
+                            const Tile = this.getTile(entity, playerId)
                             return (
-                              <Tile key={index} index={index} />
+                              <Tile key={index} index={index} size={tileSize} />
                             )
                           })
                         }

@@ -51,9 +51,18 @@ export default class GameStateManager extends React.Component {
       case actions.DATA_PLAYER_COUNT:
         this.updatePlayerCount(action.count)
         break
+      case actions.DATA_PLAYER_ID:
+        this.updatePlayerId(action.id)
+        break
       default:
         break
     }
+  }
+
+  updatePlayerId = (id) => {
+    this.setState({
+      playerId: id
+    })
   }
 
   updatePlayerCount = (count) => {
