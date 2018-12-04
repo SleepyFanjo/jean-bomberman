@@ -58,18 +58,30 @@ const serializeMap = (map) => {
     return row.map((cell) => {
       return cell.map((entity) => {
         return {
-          type: entity.type
+          type: entity.type,
+          id: entity.id
         }
       })
     })
   })
 }
 
-const buildSerializedMap = (seed) => {
-  return buildMap(seed)
-  .then((map) => {
-    return serializeMap(map)
+const addPlayersOnMap = (room) => {
+  let i = 0
+  const corners = [{x: 0, y: 0}, {x: 0, y: settings.MAP_HEIGHT - 1}, {x: settings.MAP_WIDTH - 1, y: 0}, {x: settings.MAP_WIDTH - 1, y: settings.MAP_HEIGHT - 1}]
+
+  room.users.forEach(u => {
+    const corner = corners[i]
+    i++
+
+    room.map[corner.y][corner.x].push(new entities.Player(u.uid))
   })
+
+  return room.map
 }
 
-module.exports = buildSerializedMap
+module.exports = {
+  buildMap,
+  serializeMap,
+  addPlayersOnMap
+}

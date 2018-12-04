@@ -5,6 +5,7 @@ const CLIENT_PLAYER_READY = 'client.PLAYER_READY'
 const DATA_ROOM_ID = 'data.ROOM_ID'
 const DATA_MAP = 'data.MAP'
 const DATA_PLAYER_COUNT = 'data.PLAYER_COUNT'
+const DATA_PLAYER_ID = 'data.PLAYER_ID'
 const DATA_GAME_STARTED = 'data.GAME_STARTED'
 
 const MESSAGE_ROOM_FULL = 'message.ROOM_FULL'
@@ -16,6 +17,7 @@ module.exports = {
   DATA_MAP,
   DATA_ROOM_ID,
   DATA_PLAYER_COUNT,
+  DATA_PLAYER_ID,
   DATA_GAME_STARTED,
   MESSAGE_ROOM_FULL
 }

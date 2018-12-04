@@ -1,5 +1,6 @@
 const actions = require('../action-constants')
-const buildSerializedMap = require('./map-generator')
+const { buildMap, addPlayersOnMap, serializeMap } = require('./map-generator')
+const uuidv1 = require('uuid/v1')
 
 let rooms = []
 
@@ -9,8 +10,10 @@ const sendJSONMessage = (message, user) => {
 
 const initNewUser = (user) => {
   return {
+    uid: uuidv1(),
     connection: user,
-    ready: false
+    ready: false,
+    update: false
   }
 }
 
@@ -22,9 +25,12 @@ const roomClock = (room) => {
     return
   }
 
+  // Update client info only if necessary
   room.users.forEach(user => {
-    sendJSONMessage({type: actions.DATA_MAP, map: room.map}, user.connection)
-    sendJSONMessage({type: actions.DATA_PLAYER_COUNT, count: room.users.length}, user.connection)
+    if (user.update) {
+      sendJSONMessage({type: actions.DATA_MAP, map: room.serializedMap}, user.connection)
+      user.update = false
+    }
   })
 }
 
@@ -43,23 +49,27 @@ const createRoom = (seed, user) => {
 
   leaveRoom(user)
 
+  const userData = initNewUser(user)
+
   room = {
     id: seed,
-    users: [initNewUser(user)],
+    users: [userData],
     map: null,
+    serializedMap: null,
     gameStarted: false
   }
 
-  // Start a room clock and save a reference to it in the room to stop it when no player remains
-  room.interval = setInterval(() => roomClock(room), 8000)
-
   sendJSONMessage({type: actions.DATA_ROOM_ID, seed: seed}, user)
+  sendJSONMessage({type: actions.DATA_PLAYER_COUNT, count: 1}, user)
+  sendJSONMessage({type: actions.DATA_PLAYER_ID, id: userData.uid}, user)
   sendJSONMessage({type: actions.DATA_GAME_STARTED, started: room.gameStarted}, user)
 
-  buildSerializedMap(seed)
+  buildMap(seed)
   .then((map) => {
     room.map = map
+    room.serializedMap = serializeMap(map)
     rooms.push(room)
+    sendJSONMessage({type: actions.DATA_MAP, map: room.serializedMap}, user)
   })
 }
 
@@ -87,7 +97,15 @@ const joinRoom = (seed, user) => {
     return
   }
 
-  room.users.push(initNewUser(user))
+  const userData = initNewUser(user)
+
+  room.users.push(userData)
+  room.users.forEach(u => {
+    sendJSONMessage({type: actions.DATA_PLAYER_COUNT, count: room.users.length}, u.connection)
+  })
+  sendJSONMessage({type: actions.DATA_ROOM_ID, seed: room.id}, user)
+  sendJSONMessage({type: actions.DATA_PLAYER_ID, id: userData.uid}, user)
+  sendJSONMessage({type: actions.DATA_MAP, map: room.serializedMap}, user)
 }
 
 const leaveRoom = (user) => {
@@ -102,7 +120,14 @@ const setPlayerReady = (ready, user, room) => {
 
   if (everyoneReady(room.users)) {
     room.gameStarted = true
+    map = addPlayersOnMap(room)
+    room.map = map
+    room.serializedMap = serializeMap(map)
+
+    // Start a room clock and save a reference to it in the room to stop it when no player remains
+    room.interval = setInterval(() => roomClock(room), 5000)
     room.users.forEach(u => {
+      sendJSONMessage({type: actions.DATA_MAP, map: room.serializedMap}, u.connection)
       sendJSONMessage({type: actions.DATA_GAME_STARTED, started: room.gameStarted}, u.connection)
     })
   }

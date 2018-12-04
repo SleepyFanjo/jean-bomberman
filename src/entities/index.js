@@ -35,22 +35,26 @@ class Brick extends Entity {
 }
 
 class Player extends Entity {
-  constructor () {
-    super()
+  constructor (id) {
+    super(id)
+    this.id = id
     this.block = false
     this.destructible = true
     this.zIndex = 10
+    this.type = PLAYER_TYPE
   }
 }
 
 const AIR_TYPE = 'Air'
 const BRICK_TYPE = 'Brick'
 const BLOCK_TYPE = 'Block'
+const PLAYER_TYPE = 'Player'
 
 const types = {
   AIR_TYPE,
   BRICK_TYPE,
-  BLOCK_TYPE
+  BLOCK_TYPE,
+  PLAYER_TYPE
 }
 
 module.exports = {
