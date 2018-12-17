@@ -42,7 +42,7 @@ class Player extends Entity {
     this.destructible = true
     this.zIndex = 10
     this.type = PLAYER_TYPE
-    this.orientation = DOWN
+    this.orientation = UP
   }
 }
 

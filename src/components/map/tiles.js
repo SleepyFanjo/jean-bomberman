@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import React from 'react'
 
 import { orientations } from '../../entities'
@@ -36,6 +36,14 @@ const BrickTile = styled(BaseTile)`
   box-shadow: inset -1px -1px 5px #6b3400;
 `
 
+const playerMoving = (props) => {
+  return keyframes`
+    100% {
+      background-position: ${getXOrientationOffset(props.orientation) - 94}px ${getYOrientationOffset(props.orientation)}px;
+    }
+  `
+}
+
 const PlayerSprite = styled.div`
   position: relative;
   height: 32px;
@@ -43,6 +51,10 @@ const PlayerSprite = styled.div`
   background: url(${playerSprite}) ${props => getXOrientationOffset(props.orientation)}px ${props => getYOrientationOffset(props.orientation)}px;
   transform: scale(${props => props.size / 32});
   transform-origin: top;
+
+  &.moving {
+    animation: ${playerMoving} 1s steps(5);
+  }
 
   &::after {
     content: 'Me';
@@ -84,7 +96,7 @@ const PlayerTile = (player, playerId) => {
   return (props) => {
     return (
       <BaseTile index={props.index}>
-        <PlayerSprite isMe={player.id === playerId} orientation={player.orientation} size={props.size} />
+        <PlayerSprite className='moving' isMe={player.id === playerId} orientation={player.orientation} size={props.size} />
       </BaseTile>
     )
   }
