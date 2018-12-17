@@ -110,6 +110,7 @@ const joinRoom = (seed, user) => {
   })
   sendJSONMessage({type: actions.DATA_ROOM_ID, seed: room.id}, user)
   sendJSONMessage({type: actions.DATA_PLAYER_ID, id: userData.uid}, user)
+  sendJSONMessage({type: actions.DATA_MAP, map: room.map.serialize()}, user)
 }
 
 const leaveRoom = (user) => {
