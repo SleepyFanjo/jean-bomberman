@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 import React from 'react'
 
-import theme from '../../theme'
 import { orientations } from '../../entities'
 import playerSprite from '../../images/player-sprite.png'
 
@@ -12,6 +11,8 @@ const BaseTile = styled.div`
   left: 0;
   right: 0;
   z-index: ${props => props.index};
+  display: flex;
+  justify-content: center;
 `
 
 const AirTile = styled(BaseTile)`
@@ -36,16 +37,54 @@ const BrickTile = styled(BaseTile)`
 `
 
 const PlayerSprite = styled.div`
-  height: 10px;
-  width: 10px;
-  background-color: ${props => props.isMe ? theme.primaryColor : '#fff'}
+  position: relative;
+  height: 32px;
+  width: 20px;
+  background: url(${playerSprite}) ${props => getXOrientationOffset(props.orientation)}px ${props => getYOrientationOffset(props.orientation)}px;
+  transform: scale(${props => props.size / 32});
+  transform-origin: top;
+
+  &::after {
+    content: 'Me';
+    position: absolute;
+    font-size: 0.4rem;
+    color: red;
+    top: -16px;
+    left: 24%;
+  }
 `
+
+const getXOrientationOffset = (orientation) => {
+  switch (orientation) {
+    case orientations.UP:
+    case orientations.DOWN:
+      return 0
+    case orientations.LEFT:
+    case orientations.RIGHT:
+      return 110
+    default:
+      return 0
+  }
+}
+
+const getYOrientationOffset = (orientation) => {
+  switch (orientation) {
+    case orientations.DOWN:
+    case orientations.RIGHT:
+      return 0
+    case orientations.UP:
+    case orientations.LEFT:
+      return 31
+    default:
+      return 0
+  }
+}
 
 const PlayerTile = (player, playerId) => {
   return (props) => {
     return (
       <BaseTile index={props.index}>
-        <PlayerSprite isMe={player.id === playerId} orientation={player.orientation} />
+        <PlayerSprite isMe={player.id === playerId} orientation={player.orientation} size={props.size} />
       </BaseTile>
     )
   }
