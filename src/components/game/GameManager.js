@@ -26,6 +26,14 @@ export default class GameManager extends React.Component {
     })
   }
 
+  handleKeyDown = (event) => {
+    console.log(event.altKey, event.charCode, event.ctrlKey, event.key, event.keyCode, event.shiftKey)
+  }
+
+  handleKeyUp = () => {
+
+  }
+
   render () {
     return (
       <GameContext.Consumer>
@@ -38,7 +46,7 @@ export default class GameManager extends React.Component {
                 game.map && this.state.animationEnd
                 ? <WindowSize>
                   {
-                    ({width, height}) => <MapDisplay playerId={game.playerId} started={game.started} gameMap={game.map} width={width} height={height} />
+                    ({width, height}) => <MapDisplay onKeyDown={this.handleKeyDown} onKeyUp={this.handleKeyUp} playerId={game.playerId} started={game.started} gameMap={game.map} width={width} height={height} />
                   }
                 </WindowSize>
                 : null
